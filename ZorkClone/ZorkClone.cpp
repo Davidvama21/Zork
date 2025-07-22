@@ -2,10 +2,69 @@
 //
 
 #include <iostream>
+#include <vector>
+#include <string>
+#include <iostream>
+#include <sstream> // para el istringstream
+
+#include "world.h"
+
+using namespace std;
+
+// Funciones auxiliares //
+
+
+void print_words(const vector <string>& words) {
+
+	if (not words.empty()) {
+
+		cout << words[0];
+
+		for (int i = 1; i < words.size(); ++i)
+			cout << ' ' << words[i];
+
+		cout << endl;
+	}
+}
+
+//  Devuelve las palabras separadas del texto que haya por entrada
+vector <string> getwords() {
+
+	string input; getline (std::cin, input); // getline en vez de cin directo porque coge entradas vacías tras enter
+
+	stringstream ss(input); // para extraer palabras
+
+	vector <string> words;
+	string current_word;
+
+	while (ss >> current_word) {
+
+		words.push_back (current_word);
+	}
+
+	return words;
+}
 
 int main()
 {
-    std::cout << "Hello World!\n";
+    std::cout << "Hello! This is a test prompt for Zork Clone\n";
+
+	World game;
+
+	bool run;
+
+	do {
+
+		cout << '>';
+		vector <string> words = getwords(); // del input
+
+		//print_words(words); //  TEST
+
+		run = game.parseCommand(words); //(not words.empty() and words[0] != "quit");
+
+	} while (run);
+
+	std::cout << "Thanks for playing!\n";
 }
 
 // Ejecutar programa: Ctrl + F5 o menú Depurar > Iniciar sin depurar
