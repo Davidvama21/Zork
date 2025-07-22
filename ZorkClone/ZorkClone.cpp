@@ -51,12 +51,16 @@ int main()
 
 	World game;
 
+	// Forzamos al principio a que se ejecute la acción "look" para que salga descripción de la 1a área
+	vector <string> words(1); words[0] = "look";
+	game.parseCommand(words);
+
 	bool run;
 
 	do {
 
 		cout << '>';
-		vector <string> words = getwords(); // del input
+		words = getwords(); // del input
 
 		//print_words(words); //  TEST
 
