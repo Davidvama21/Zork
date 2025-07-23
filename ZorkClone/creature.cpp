@@ -11,3 +11,8 @@ Room* Creature::getRoom(){
 
 	return location;
 }
+
+void Creature::changeRoom(Room * new_room)
+{
+	location = new_room;
+}

@@ -10,6 +10,7 @@ public:
 	Creature (string name, string description, Room* location);
 
 	Room* getRoom();
+	void changeRoom (Room* new_room);
 
 protected:
 

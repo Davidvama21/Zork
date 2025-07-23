@@ -37,3 +37,20 @@ void Room::look() { // PODRÍA ESTAR (LO 1ERO) EN ENTITY?
 			cout << "There is an item here: " << currentEntity->getName() << endl;
 	}
 }
+// Devuelve el puntero al room siguiente si sigues la dirección direction (de brújula);
+// en caso de no existir devuelve null
+Room * Room::getNextRoom(string direction){
+	
+	for (list<Entity*>::iterator it = contents.begin(); it != contents.end(); ++it) {
+		Entity* currentEntity = *it;
+		if (currentEntity->getType() == EXIT) {
+
+			pair <string, Room*> oppositeRoomData = ((Exit*)currentEntity)->getOppositeRoomData(this);
+
+			if (oppositeRoomData.first == direction) // Si el otro lado de la salida que estamos consultando se corresponde con la dirección a la que queremos ir,
+				return oppositeRoomData.second; // ésta es la room siguiente
+		}
+	}
+
+	return NULL; // si no encontramos salida en esa dirección
+}
