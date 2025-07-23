@@ -8,7 +8,6 @@ class Room : public Entity
 public:
 	Room(string name, string description);
 
-
 	void look();
 };
 

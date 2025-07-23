@@ -28,11 +28,11 @@ World::World() {
 	entities.push_back(exit2);
 
 	// Items //
-	Item* letter = new Item("Letter", "Someone left this on the ground.", "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.");
+	Item* letter = new Item("Letter", "Someone left this on the ground.", true, "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor."); // true porque se puede coger
 	hall->addElement(letter); // para que se vean en la sala
 	entities.push_back(letter);
 
-	Item* box = new Item("Box", "A box made of cardboard");
+	Item* box = new Item("Box", "A box made of cardboard", false);
 	hall->addElement(box);
 	entities.push_back(box);
 
@@ -66,7 +66,36 @@ bool World::parseCommand(const vector<string>& words)
 			Room* currentRoom = player->getRoom();
 			currentRoom->look();
 		}
+
+		break;
+	
+
+	case 2: // Comando de 2 parámetros
+
+		
+		if (words[0] == "pick" or words[0] == "take") {
+
+			pair < list<Entity*>::iterator, list<Entity*>* > item_position = (player->getRoom())->getItemPos (words[1]); // Buscamos item con nombre dado en el comando
 			
+			if (item_position.second == NULL) // => no encontrado
+				cout << "The object is not in the room." << endl;
+
+			else {
+				Item* item = (Item*)(*item_position.first); // extraer item
+
+				if (item->isPickable()) {
+					(*item_position.second).erase (item_position.first); // Borramos del lugar donde estaba
+
+					player->addElement (item); // y añadimos al inventario
+					cout << "You picked up the " << item->getName() << '.' << endl;
+
+				}else
+					cout << "You can't pick this object."  << endl;
+			}
+
+
+		}
+
 	}
 
 	return true; // Nada indica que haya que salir del juego
