@@ -1,7 +1,7 @@
 #pragma once
 
 #include <string>
-#include <queue>
+#include <list>
 
 using namespace std;
 
@@ -19,8 +19,11 @@ class Entity
 {
 public:
 	Entity(string name, string description);
-	string getname();
-	string getdescription();
+	string getName();
+	string getDescription();
+	EntityType getType();
+
+	void addElement(Entity* entity);
 
 protected:
 
@@ -29,6 +32,6 @@ protected:
 	string name;
 	string description;
 
-	queue <Entity*> contents;
+	list <Entity*> contents; // Lista para que se respete el orden de elementos al explorarla
 };
 
