@@ -15,6 +15,9 @@ World::World() {
 	Room* entrance = new Room("Entrance", "You are standing in front of a big house.");
 	entities.push_back(entrance);
 
+	Room* kitchen = new Room("Kitchen", "For a kitchen, it sure is a small room.");
+	entities.push_back(kitchen);
+
 	Room* living_room = new Room("Living room", "The red carpet ends here.");
 	entities.push_back(living_room);
 
@@ -23,9 +26,13 @@ World::World() {
 	entrance->addElement(exit1); hall->addElement(exit1); // NECESARIO PARA RECONOCER VÍAS POR LAS QUE SE PUEDE IR
 	entities.push_back(exit1);
 
-	Exit* exit2 = new Exit("West", "East", hall, living_room, "path");
-	hall->addElement(exit2); living_room->addElement(exit2);
+	Exit* exit2 = new Exit("South", "North", hall, kitchen, "door");
+	hall->addElement(exit2); kitchen->addElement(exit2);
 	entities.push_back(exit2);
+
+	Exit* exit3 = new Exit("West", "East", hall, living_room, "path");
+	hall->addElement(exit3); living_room->addElement(exit3);
+	entities.push_back(exit3);
 
 	// Items //
 	Item* letter = new Item("Letter", "Someone left this on the ground.", true, "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor."); // true porque se puede coger
@@ -65,7 +72,10 @@ bool World::parseCommand(const vector<string>& words)
 		if (words[0] == "look"){
 			Room* currentRoom = player->getRoom();
 			currentRoom->look();
+
 		}
+		else if (words[0] == "inventory")
+			player->listElements();
 
 		break;
 	
@@ -133,6 +143,33 @@ bool World::parseCommand(const vector<string>& words)
 			else { // caso de sala encontrada
 				player->changeRoom(nextRoom);
 				nextRoom->look(); // Para hacer preview de nueva sala
+			}
+		}
+
+		break;
+
+	case 4: // Comando de 4 parámetros
+
+		if (words[0] == "put" and words[2] == "on") {
+
+			pair < list<Entity*>::iterator, list<Entity*>* > itemtoplace_position = player->getItemPos(words[1]);
+
+			if (itemtoplace_position.second == NULL) // => no está en el inventario
+				cout << "There is no " << words[1] << "in your inventory" << endl;
+
+			else {
+				Item* place = (Item*)(player->getRoom())->getItem(words[3]);
+
+				if (place == NULL)
+					cout << "There is no " << words[3] << "in the room" << endl;
+				
+				else{ // Tenemos los dos objetos, así que ponemos el primero sobre el segundo
+
+					place->addElement(*itemtoplace_position.first);
+					itemtoplace_position.second->erase (itemtoplace_position.first); // Y lo borramos del inventario
+
+					cout << "You put the " << words[1] << " on the " << words[3] << '.' << endl;
+				}
 			}
 		}
 

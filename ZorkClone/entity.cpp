@@ -1,3 +1,5 @@
+#include <iostream>
+
 #include "entity.h"
 
 
@@ -90,6 +92,21 @@ Entity * Entity::getAndRemoveItem(string name)
 }
 
 
+
+void Entity::listElements()
+{
+	if (contents.empty())
+		cout << "There are no elements to list." << endl;
+
+	else {
+
+		cout << "Total elements: " << contents.size() << endl;
+		for (list<Entity*>::iterator it = contents.begin(); it != contents.end(); ++it) {
+
+			cout << (*it)->getName() << endl;
+		}
+	}
+}
 
 // Añade una entidad a la lista de elementos que contiene este objeto
 void Entity::addElement(Entity * entity)

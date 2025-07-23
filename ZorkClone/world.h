@@ -24,7 +24,7 @@ public:
 
 private:
 
-	list<Entity*> entities; // creo que podríamos usar una pila...
+	list<Entity*> entities; // Para seguir entidades del juego y borrarlas cuando acabemos; creo que podríamos usar una pila...
 	Player* player;
 };
 

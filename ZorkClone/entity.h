@@ -37,6 +37,8 @@ public:
 	// Lo mismo, pero si lo encuentra además lo borra del contenido
 	Entity* getAndRemoveItem(string name);
 	
+	// Muestra una lista de los elementos contenidos
+	void listElements();
 
 	void addElement(Entity* entity);
 
